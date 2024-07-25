@@ -18,7 +18,7 @@ function printFrame(string $texto): void {
     }
 
     //imprime la parte superior del marco 
-    $frame = str_repeat("#", $maxLength + 4);
+    $frame = str_repeat("🧚‍♀️", $maxLength + 4);
     echo $frame . "<br>";
 
     //imprimie cada palabra en una linea con almohadillas
@@ -26,8 +26,8 @@ function printFrame(string $texto): void {
     // primero calculams los espacios a la izquierda y a la derecha 
         $leftPadding = floor(($maxLength - strlen($quote)) / 2); //lo dividimos por 2 para que los espacios sean equitativos en ambos lados
         $rightPadding = $maxLength - strlen($quote) - $leftPadding;
-        $paddedWord = str_repeat(" ", $leftPadding) . $quote . str_repeat(" ", $rightPadding);
-        echo "#".$paddedWord. "#<br>";
+        $paddedWord = str_repeat("  ", $leftPadding) . $quote . str_repeat("   ", $rightPadding);
+        echo "🧚‍♀️".$paddedWord. "🧚‍♀️<br>";
     }
 
     //imprimi la parte inferior del marco

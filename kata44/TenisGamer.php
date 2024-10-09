@@ -1,4 +1,5 @@
 <?php
+
 class PartidoTenis {
     private $Player1;
     private $Player2;

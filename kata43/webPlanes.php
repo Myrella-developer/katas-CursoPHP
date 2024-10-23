@@ -157,4 +157,9 @@ class WebPlanes {
     
 
 }
+
+
+$webPlanes = new WebPlanes();
+$webPlanes->menu();
+
 ?>

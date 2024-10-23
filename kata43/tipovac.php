@@ -1,17 +1,24 @@
 <?php
-enum tipoVac: string {
-    case Playa  = 'Playa';
-    case Ciudad  = 'Ciudad';
-    case Campo   = 'Campo';
-    case Deporte = 'Deporte';
 
-    public function getTipo(): string {
-        return match($this) {
-            self::Playa  => 'Playa',
-            self::Ciudad  => 'Ciudad',
-            self::Campo   => 'Campo',
-            self::Deporte => 'Deporte',
-        };
+require_once 'Activity.php';
+
+enum Tipo{
+    case Playa;
+    case Ciudad;
+    case Campo;
+    case Deporte;
+}
+
+class Tipovac extends Activity{
+    private Tipo $tipo;
+    
+    public function __construct(string $nombre, string $fecha, Tipo $tipo){
+        parent::__construct($nombre, $fecha);
+        $this->tipo = $tipo;
+    }
+
+    public function __toString(): string {
+        return "{$this->nombre} ({$this->fecha}) - Tipo: {$this->tipo->name}";
     }
 }
 ?>

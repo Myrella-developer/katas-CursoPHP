@@ -1,72 +1,60 @@
 <?php
 
-
-    $xCount = 0;
-    $oCount = 0;
-
-// Solicitar entradas
-echo "Ingresa los caracteres (X y O). Escribe 'fin' para terminar:\n";
-
-while (true) {
-    $entrada = trim(fgets(STDIN));
-
-    // Terminar el ingreso si se escribe 'fin'
-    if (strtolower($entrada) === 'fin') {
-        break;
+function evaluateTicTacToe($gameBoard) {
+   
+    for ($index = 0; $index < 3; $index++) {
+        
+        
+        if ($gameBoard[$index][0] === $gameBoard[$index][1] && $gameBoard[$index][1] === $gameBoard[$index][2] && $gameBoard[$index][0] !== '-') {
+            return $gameBoard[$index][0]; 
+        }
+        
+       
+        if ($gameBoard[0][$index] === $gameBoard[1][$index] && $gameBoard[1][$index] === $gameBoard[2][$index] && $gameBoard[0][$index] !== '-') {
+            return $gameBoard[0][$index]; 
+        }
     }
 
-    // Contar los caracteres
-    if ($entrada === 'X') {
-        $xCount++;
-    } elseif ($entrada === 'O') {
-        $oCount++;
+    
+    if ($gameBoard[0][0] === $gameBoard[1][1] && $gameBoard[1][1] === $gameBoard[2][2] && $gameBoard[0][0] !== '-') {
+        return $gameBoard[0][0]; 
+    }
+    if ($gameBoard[0][2] === $gameBoard[1][1] && $gameBoard[1][1] === $gameBoard[2][0] && $gameBoard[0][2] !== '-') {
+        return $gameBoard[0][2]; 
+    }
+
+  
+    foreach ($gameBoard as $row) {
+        if (in_array('-', str_split($row))) {
+            return null; 
+        }
+    }
+
+    return 'Empate'; 
+}
+
+$matches = [
+    ["XOO", 
+     "OXO", 
+     "-OX"],
+    ["OX-", 
+     "OX-",  
+     "O--"],
+    ["OXO", 
+     "XOX", 
+     "XXO"]
+];
+
+foreach ($matches as $gameBoard) {
+    $result = evaluateTicTacToe($gameBoard);
+    
+    if ($result === 'X') {
+        echo "Ganan las \"X\"!" . PHP_EOL;
+    } elseif ($result === 'O') {
+        echo "Ganan las \"O\"!" . PHP_EOL;
     } else {
-        echo "Por favor, ingresa solo 'X' o 'O'.\n";
+        echo "Empate!" . PHP_EOL;
     }
 }
 
-// Mostrar resultados
-echo "Total de X: $xCount\n";
-echo "Total de O: $oCount\n";
-
-if ($xCount > $oCount) {
-    echo "¡Gana X!\n";
-} elseif ($oCount > $xCount) {
-    echo "¡Gana O!\n";
-} else {
-    echo "¡Es un empate!\n";
-}
 ?>
-
-
-
-<!-- //Tenemos que crear un programa que *avalui el 
-resultado de una partida de "Tic Taco *Toe". 
-En concreto, nos tiene que decir, dada una partida, quien ha ganado.
-
-Input
-
-XOO
-OXO
--OX
-
-OX-
-OX-
-O--
-
-OXO
-XOX
-XXO
-
-Output
-
-Ganan las "X"!
-
-Ganan las "O"!
-
-Empate!
-
-*Bonus *Track: Podemos dar por hecho que las 
-*jugadades tendrán valores válido, pero sabrías programar 
-también un *validador de partidas? De tal manera que si 
-la partida noes fuera válida el resultado a mostrar fuera "Partida *nula"? -->

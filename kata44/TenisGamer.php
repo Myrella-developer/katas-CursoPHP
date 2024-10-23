@@ -1,62 +1,81 @@
 <?php
 
-class PartidoTenis {
-    private $Player1;
-    private $Player2;
-    private $sets;
-
-    public function __construct($jugador1, $jugador2, $sets) {
-        $this->Player1 = $jugador1;
-        $this->Player2 = $jugador2;
-        $this->sets = $sets; 
+class TennisMatch {
+    private string $player1;
+    private string $player2;
+    private array $sets; 
+    
+    public function __construct(string $player1, string $player2) {
+        $this->player1 = $player1;
+        $this->player2 = $player2;
+        $this->sets = [];
     }
 
+    
+    public function addSet(int $gamesPlayer1, int $gamesPlayer2): void {
+        $this->sets[] = [$gamesPlayer1, $gamesPlayer2];
+    }
 
-    public function mostrarMarcador() {
-        echo "Resultado del partido: \n";
-        echo "{$this->Player1} vs {$this->Player2}\n";
-
-        for ($i = 0; $i < count($this->sets); $i++) {
-            echo "Set " . ($i + 1) . ": " . $this->sets[$i][$this->Player1] . " - " . $this->sets[$i][$this->Player2] . "\n";
+    
+    public function getScore(): string {
+        $scoreString = "Marcador del partido:\n";
+        foreach ($this->sets as $index => [$gamesPlayer1, $gamesPlayer2]) {
+            $scoreString .= "Set " . ($index + 1) . ": {$this->player1} {$gamesPlayer1} - {$this->player2} {$gamesPlayer2}\n";
         }
+        return $scoreString;
     }
 
- 
-    public function mostrarGanador() {
-        $victoriasPlayer1 = 0;
-        $victoriasPlayer2 = 0;
+    
+    public function getWinner(): string {
+        $player1Sets = 0;
+        $player2Sets = 0;
 
-        foreach ($this->sets as $set) {
-            if ($set[$this->Player1] > $set[$this->Player2]) {
-                $victoriasPlayer1++;
+        foreach ($this->sets as [$gamesPlayer1, $gamesPlayer2]) {
+            if ($gamesPlayer1 > $gamesPlayer2) {
+                $player1Sets++;
             } else {
-                $victoriasPlayer2++;
+                $player2Sets++;
             }
         }
 
-        if ($victoriasPlayer1 > $victoriasPlayer2) {
-            echo "El ganador es: {$this->Player1}\n";
+        if ($player1Sets > $player2Sets) {
+            return "{$this->player1} gana el partido.";
         } else {
-            echo "El ganador es: {$this->Player2}\n";
+            return "{$this->player2} gana el partido.";
         }
+    }
+
+    
+    public function getSetWithMaxDifference(): string {
+        $maxDifference = 0;
+        $setIndex = -1;
+
+        foreach ($this->sets as $index => [$gamesPlayer1, $gamesPlayer2]) {
+            $difference = abs($gamesPlayer1 - $gamesPlayer2);
+            if ($difference > $maxDifference) {
+                $maxDifference = $difference;
+                $setIndex = $index;
+            }
+        }
+
+        if ($setIndex !== -1) {
+            return "El set con mayor diferencia de juegos es el " . ($setIndex + 1) . 
+                   " con una diferencia de {$maxDifference} juegos.";
+        }
+        return "No hay sets registrados.";
     }
 }
 
-$partido = new PartidoTenis(
-    "Player 1", 
-    "Player 2", 
-    [
-        ["Player 1" => 4, "Player 2" => 3], // Set 1
-        ["Player 1" => 6, "Player 2" => 2], // Set 2
-        ["Player 1" => 5, "Player 2" => 2], // Set 3
-        ["Player 1" => 4, "Player 2" => 3], // Set 4
-        ["Player 1" => 6, "Player 2" => 1], // Set 5
-    ]
-);
 
+$match = new TennisMatch("Jugador 1", "Jugador 2");
+$match->addSet(6, 4); 
+$match->addSet(3, 6); 
+$match->addSet(6, 2); 
+$match->addSet(6, 3); 
+$match->addSet(7, 5); 
 
-$partido->mostrarMarcador();
+echo $match->getScore();
+echo $match->getWinner() . PHP_EOL;
+echo $match->getSetWithMaxDifference() . PHP_EOL;
 
-
-$partido->mostrarGanador();
 ?>

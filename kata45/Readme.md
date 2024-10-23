@@ -21,5 +21,3 @@ Ganan las "X"!
 Ganan las "O"!
 
 Empate!
-
-Bonus Track: Podemos dar por hecho que las jugadades tendrán valores válido, pero sabrías programar también un validador de partidas? De tal manera que si la partida noes fuera válida el resultado a mostrar fuera "Partida nula"?

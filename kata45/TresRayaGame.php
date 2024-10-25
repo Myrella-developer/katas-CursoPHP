@@ -1,36 +1,29 @@
 <?php
 
 function evaluateTicTacToe($gameBoard) {
-   
-    for ($index = 0; $index < 3; $index++) {
-        
-        
-        if ($gameBoard[$index][0] === $gameBoard[$index][1] && $gameBoard[$index][1] === $gameBoard[$index][2] && $gameBoard[$index][0] !== '-') {
-            return $gameBoard[$index][0]; 
-        }
-        
-       
-        if ($gameBoard[0][$index] === $gameBoard[1][$index] && $gameBoard[1][$index] === $gameBoard[2][$index] && $gameBoard[0][$index] !== '-') {
-            return $gameBoard[0][$index]; 
-        }
-    }
-
     
-    if ($gameBoard[0][0] === $gameBoard[1][1] && $gameBoard[1][1] === $gameBoard[2][2] && $gameBoard[0][0] !== '-') {
-        return $gameBoard[0][0]; 
-    }
-    if ($gameBoard[0][2] === $gameBoard[1][1] && $gameBoard[1][1] === $gameBoard[2][0] && $gameBoard[0][2] !== '-') {
-        return $gameBoard[0][2]; 
+    for ($index = 0; $index < 3; $index++) {
+        if (checkWin($gameBoard[$index]) || checkWin([$gameBoard[0][$index], $gameBoard[1][$index], $gameBoard[2][$index]])) {
+            return $gameBoard[$index][0] !== '-' ? $gameBoard[$index][0] : $gameBoard[0][$index];
+        }
     }
 
-  
+    if (checkWin([$gameBoard[0][0], $gameBoard[1][1], $gameBoard[2][2]]) || 
+        checkWin([$gameBoard[0][2], $gameBoard[1][1], $gameBoard[2][0]])) {
+        return $gameBoard[1][1]; 
+    }
+
     foreach ($gameBoard as $row) {
-        if (in_array('-', str_split($row))) {
+        if (strpos($row, '-') !== false) {
             return null; 
         }
     }
 
     return 'Empate'; 
+}
+
+function checkWin($line) {
+    return $line[0] === $line[1] && $line[1] === $line[2] && $line[0] !== '-';
 }
 
 $matches = [
@@ -56,5 +49,4 @@ foreach ($matches as $gameBoard) {
         echo "Empate!" . PHP_EOL;
     }
 }
-
 ?>
